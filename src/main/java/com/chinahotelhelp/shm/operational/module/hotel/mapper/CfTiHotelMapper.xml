@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!-- namespace必须指向Dao接口 -->
+<mapper namespace="com.chinahotelhelp.shm.operational.module.hotel.mapper.CfTiHotelMapper">
+
+    <select id="execSQL" parameterType="com.chinahotelhelp.shm.operational.module.sys.entity.Page" resultType="map">
+		${exec_sql}
+	</select>
+
+
+	<select id="getHotelListByBolcId" parameterType="string"
+			resultType="com.chinahotelhelp.shm.operational.module.hotel.entity.CfTiHotel">
+        SELECT
+			hi_id,
+			bloc_id,
+			hi_name,
+			hi_legalperson,
+			hi_tel,
+			hi_type,
+			hi_address,
+			hi_districts_code,
+			hi_longitude,
+			hi_latitude,
+			hi_ifdemohotel,
+			c_user_id,
+			c_user_name,
+			m_user_id,
+			m_user_name,
+			c_time,
+			m_time,
+			hi_code
+		FROM
+			cf_ti_hotel
+		WHERE
+			bloc_id = #{bloc_id}
+		AND del_flag = 0
+		ORDER BY
+			c_time DESC;
+    </select>
+
+</mapper>

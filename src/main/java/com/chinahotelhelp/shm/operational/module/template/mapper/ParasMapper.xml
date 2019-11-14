@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!-- namespace必须指向Dao接口 -->
+<mapper namespace="com.chinahotelhelp.shm.operational.module.template.mapper.ParasMapper">
+
+    <insert id="addParas" parameterType="com.chinahotelhelp.shm.operational.module.template.entity.ParasStructure">
+        insert into cf_pt_structure(p_type,p_category,p_name,p_comment,is_dict,c_user_id,c_user_name,c_time)values
+        (#{p_type},#{p_category},#{p_name},#{p_comment},#{is_dict},#{c_user_id},#{c_user_name},#{c_time})
+	</insert>
+    <update id="modifyParas" parameterType="com.chinahotelhelp.shm.operational.module.template.entity.ParasStructure">
+        update cf_pt_structure set p_type=#{p_type},p_category=#{p_category},p_name=#{p_name},
+        p_comment=#{p_comment},is_dict=#{is_dict},m_user_id=#{m_user_id},m_user_name=#{m_user_name},m_time=#{m_time} where p_id=#{p_id}
+    </update>
+    <update id="deleteParas" parameterType="java.lang.String">
+           update cf_pt_structure set del_flag='1' where p_id=#{p_id}
+    </update>
+    <select id="getParas" parameterType="java.util.HashMap" resultType="java.util.HashMap">
+        select * from cf_pt_structure where 1=1
+        <if test="p_type != null">
+            and p_type=#{p_type}
+        </if>
+        <if test="p_category != null">
+            and p_category=#{p_category}
+        </if>
+        <if test="p_name != null">
+            and p_comment like "%"#{p_name}"%"
+        </if>
+    </select>
+
+    <select id="execSQL" parameterType="com.chinahotelhelp.shm.operational.module.sys.entity.Page" resultType="map">
+		${exec_sql}
+	</select>
+</mapper>

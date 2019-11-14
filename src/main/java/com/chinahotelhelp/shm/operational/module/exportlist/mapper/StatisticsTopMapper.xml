@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!-- namespace必须指向Dao接口 -->
+<mapper namespace="com.chinahotelhelp.shm.operational.module.exportlist.mapper.StatisticsTopMapper">
+
+    <select id="findStatisticsTop" parameterType="java.lang.String" resultType="com.chinahotelhelp.shm.operational.module.exportlist.entity.StatisticsTop">
+        SELECT top_id,top_name,top_property,order_count FROM sys_statistics_top WHERE total_header_id = #{total_header_id} order by order_count asc
+    </select>
+</mapper>

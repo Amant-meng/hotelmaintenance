@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!-- namespace必须指向Dao接口 -->
+<mapper namespace="com.chinahotelhelp.shm.operational.module.sys.mapper.SysRoleMapper">
+
+    <select id="execSQL" parameterType="com.chinahotelhelp.shm.operational.module.sys.entity.Page"
+            resultType="map">
+		${exec_sql}
+	</select>
+    <!--查询系统用户已拥有得角色-->
+    <select id="queryRoleListWithSelected" parameterType="String"
+            resultType="com.chinahotelhelp.shm.operational.module.sys.entity.SysRole">
+            SELECT r.id,r.name,r.issystem,
+        (CASE WHEN (SELECT ur.rid FROM sys_user_role ur WHERE ur.uid= #{uid} AND ur.rid = r.id) THEN 1 ELSE 0 END) AS selected
+        FROM sys_role r WHERE deltag='0'
+        and (r.issystem='0' or r.issystem in (select   u.issystem   from sys_user u where u.id= #{uid}))
+  </select>
+</mapper>

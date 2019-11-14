@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!-- namespace必须指向Dao接口 -->
+<mapper namespace="com.chinahotelhelp.shm.operational.module.hotel.mapper.CfTiTerminalMapper">
+
+    <select id="execSQL" parameterType="com.chinahotelhelp.shm.operational.module.sys.entity.Page" resultType="map">
+		${exec_sql}
+	</select>
+
+
+	<select id="getTemplateByTiId" parameterType="java.lang.String" resultType="map">
+		SELECT
+			t.ti_id,
+			t.temp_id,
+			m.p_type,
+			m.temp_name
+		FROM
+			cf_pt_template_terminal t
+		INNER JOIN cf_pt_template m ON m.temp_id = t.temp_id
+		WHERE
+			m.del_flag = 0
+		AND t.del_flag = 0
+		AND t.ti_id = #{ti_id}
+	</select>
+
+	<select id="getTemplateParasByTiId" parameterType="java.lang.String" resultType="map">
+		SELECT
+			t.ti_id,
+			t.temp_id,
+			m.p_id,
+			p.p_name,
+			p.p_name_cn,
+			p.p_comment,
+			p.is_dict,
+			p.dict_type
+		FROM
+			cf_pt_template_terminal t
+		INNER JOIN cf_pt_template_paras m ON m.temp_id = t.temp_id
+		INNER JOIN cf_pt_structure p ON p.p_id = m.p_id
+		WHERE
+			m.del_flag = 0
+		AND t.del_flag = 0
+		AND p.del_flag = 0
+		AND t.ti_id = #{ti_id}
+		AND t.temp_id = #{temp_id}
+	</select>
+
+
+	<select id="getTemplateValueByTiId" parameterType="java.lang.String" resultType="map">
+		SELECT
+			c.ti_id,
+			c.temp_id,
+			c.p_id,
+			c.p_value,
+			p.p_name,
+			p.p_name_cn,
+			p.is_dict,
+			p.dict_type
+		FROM
+			cf_pt_config c,
+			cf_pt_structure p
+		WHERE
+			c.p_id = p.p_id
+		AND p.del_flag = 0
+		AND c.ti_id = #{ti_id}
+		AND c.temp_id = #{temp_id};
+
+	</select>
+
+</mapper>

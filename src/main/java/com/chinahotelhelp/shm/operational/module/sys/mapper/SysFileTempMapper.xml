@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!-- namespace必须指向Dao接口 -->
+<mapper namespace="com.chinahotelhelp.shm.operational.module.sys.mapper.SysFileTempMapper">
+
+
+    <!--批量插入-->
+    <insert id="insertBatch" parameterType="list">
+        insert into sys_file_temp (taskid,id,c1,c2,c3,c4,c5,c6,c7,c8,c9,c10,c11,c12,c13,c14,c15,c16,c17)
+        values
+        <foreach collection ="list" item="file" index= "index" separator =",">
+            (
+            #{file.taskid},
+            #{file.id},
+            #{file.c1},
+            #{file.c2},
+            #{file.c3},
+            #{file.c4},
+            #{file.c5},
+            #{file.c6},
+            #{file.c7},
+            #{file.c8},
+            #{file.c9},
+            #{file.c10},
+            #{file.c11},
+            #{file.c12},
+            #{file.c13},
+            #{file.c14},
+            #{file.c15},
+            #{file.c16},
+            #{file.c17}
+            )
+        </foreach >
+
+    </insert>
+
+    <!--获取文件列配置-->
+    <select id="getColConfig" resultType="map">
+        select * from sys_file_colsconfig where type = #{type}
+    </select>
+
+    <!--获取保存文件前10条记录-->
+    <select id="getTempData" parameterType="string" resultType="com.chinahotelhelp.shm.operational.module.sys.entity.SysFileTemp">
+        select * from sys_file_temp where taskid = #{value} limit 10
+    </select>
+
+    <!--获取比对结果-->
+    <select id="execSQL" parameterType="com.chinahotelhelp.shm.operational.module.sys.entity.Page" resultType="map">
+        ${exec_sql}
+    </select>
+
+
+</mapper>

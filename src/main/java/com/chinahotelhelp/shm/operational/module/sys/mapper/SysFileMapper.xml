@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!-- namespace必须指向Dao接口 -->
+<mapper namespace="com.chinahotelhelp.shm.operational.module.sys.mapper.SysFileMapper">
+
+    <!--获取文件列配置-->
+    <select id="findtype" resultType="com.chinahotelhelp.shm.operational.module.sys.entity.SysFile" parameterType="java.lang.String">
+        select inputType from sys_file where taskId = #{taskId}
+    </select>
+</mapper>

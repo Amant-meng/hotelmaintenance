@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!-- namespace必须指向Dao接口 -->
+<mapper namespace="com.chinahotelhelp.shm.operational.module.sys.mapper.SysMenuMapper">
+
+
+    <select id="queryMenuListWithSelected" parameterType="Integer"
+            resultType="com.chinahotelhelp.shm.operational.module.sys.entity.SysMenu">
+    SELECT m.id,m.name,m.premission,m.pid,m.pidname,m.icon,m.isfunc,
+    (CASE WHEN (SELECT mr.rid FROM sys_role_menu mr WHERE mr.rid= #{rid} AND mr.mid = m.id) THEN 1 ELSE 0 END) AS selected
+    FROM sys_menu m WHERE deltag='0'
+  </select>
+</mapper>

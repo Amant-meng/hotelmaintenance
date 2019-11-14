@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!-- namespace必须指向Dao接口 -->
+<mapper namespace="com.chinahotelhelp.shm.operational.module.exportlist.mapper.StatisticsColumnMapper">
+<select id="queryStatisticsColumnByStatisticsNo" parameterType="java.lang.String" resultType="com.chinahotelhelp.shm.operational.module.exportlist.entity.StatisticsColumn">
+    SELECT statistics_column_name from sys_statistics_column where statistics_id = #{statisticsId} order by order_count asc
+</select>
+
+    <select id="queryStatisticsColumnSql" parameterType="java.lang.String" resultType="com.chinahotelhelp.shm.operational.module.exportlist.entity.StatisticsColumn">
+    SELECT *  from sys_statistics_column where statistics_id = #{statisticsId} order by tosort asc
+   </select>
+</mapper>

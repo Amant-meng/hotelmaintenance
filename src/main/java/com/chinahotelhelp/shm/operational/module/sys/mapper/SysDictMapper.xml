@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!-- namespace必须指向Dao接口 -->
+<mapper namespace="com.chinahotelhelp.shm.operational.module.sys.mapper.SysDictMapper">
+    <select id="execSQL" parameterType="com.chinahotelhelp.shm.operational.module.sys.entity.Page"
+            resultType="map">
+		${exec_sql}
+	</select>
+
+
+	<select id="getConcat" resultType="map">
+        select id,CONCAT(name,'(',type,')') name from core_dict where parent='' and type not in('districts_code','bloc_type')
+  </select>
+
+
+    <select id="getConcatType" resultType="map">
+            select TYPE_NAME,TYPE from core_dict group by TYPE;
+  </select>
+</mapper>

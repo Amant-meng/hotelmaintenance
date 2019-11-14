@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!-- namespace必须指向Dao接口 -->
+<mapper namespace="com.chinahotelhelp.shm.operational.module.hotel.mapper.CfTiLockKeyValueMapper">
+
+    <select id="execSQL" parameterType="com.chinahotelhelp.shm.operational.module.sys.entity.Page" resultType="map">
+		${exec_sql}
+	</select>
+
+	<select id="getLockList" parameterType="java.lang.String" resultType="map">
+		SELECT
+			hi_id,
+			ro_id,
+			lock_id,
+			c_time
+		FROM
+			cf_ti_lock_keyvalue
+		WHERE
+			hi_id = #{hi_id}
+
+	</select>
+
+</mapper>

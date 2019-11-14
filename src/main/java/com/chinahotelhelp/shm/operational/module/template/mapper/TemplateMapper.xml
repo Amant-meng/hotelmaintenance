@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!-- namespace必须指向Dao接口 -->
+<mapper namespace="com.chinahotelhelp.shm.operational.module.template.mapper.TemplateMapper">
+
+    <insert id="addTemplate" parameterType="com.chinahotelhelp.shm.operational.module.template.entity.Template">
+        insert into cf_pt_template(temp_id,temp_name,c_user_id,c_user_name,c_time)values(#{temp_id},#{temp_name},#{c_user_id},#{c_user_name},#{c_time})
+	</insert>
+    <update id="modifyTemplate" parameterType="com.chinahotelhelp.shm.operational.module.template.entity.Template">
+        update cf_pt_template set temp_name=#{temp_name},m_user_id=#{m_user_id},m_user_name=#{m_user_name},m_time=#{m_time} where temp_id=#{temp_id}
+    </update>
+    <update id="deleteTemplate" parameterType="java.lang.String">
+           update cf_pt_template set del_flag='1' where temp_id=#{temp_id}
+    </update>
+    <select id="getTemplate" parameterType="java.lang.String" resultType="java.util.HashMap">
+              select * from cf_pt_template where 1=1 and del_flag='0'
+        <if test="_parameter != null">
+              and temp_name like "%"#{temp_name}"%"
+        </if>
+    </select>
+    <insert id="addTemplateParas" parameterType="com.chinahotelhelp.shm.operational.module.template.entity.TemplateParas">
+        insert into cf_pt_template_paras(p_id,temp_id,c_user_id,c_user_name,c_time)values(#{p_id},#{temp_id},#{c_user_id},#{c_user_name},#{c_time})
+	</insert>
+    <update id="deleteTemplateParas" parameterType="java.lang.String">
+        update cf_pt_template_paras set del_flag='1' where temp_id=#{temp_id}
+    </update>
+
+    <select id="execSQL" parameterType="com.chinahotelhelp.shm.operational.module.sys.entity.Page" resultType="map">
+		${exec_sql}
+	</select>
+</mapper>

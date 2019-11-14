@@ -1,0 +1,172 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!-- namespace必须指向Dao接口 -->
+<mapper namespace="com.chinahotelhelp.shm.operational.module.exportlist.mapper.StatisticsListMapper">
+
+    <select id="findStatisticsList" parameterType="java.lang.String"
+            resultType="com.chinahotelhelp.shm.operational.module.exportlist.entity.StatisticsList">
+        SELECT
+            *
+        FROM
+            sys_statistics_list
+        WHERE
+         statistics_id = #{statisticsId}
+    </select>
+
+    <select id="findStatisticsChineseList" parameterType="java.lang.String" resultType="java.lang.String">
+        SELECT
+            sl.statistics_sql
+        FROM
+            sys_statistics_top qc
+            LEFT JOIN sys_statistics_top qs ON qc.top_id = qs.top_id
+            LEFT JOIN sys_statistics_list sl ON sl.statistics_id = qs.top_id
+        WHERE
+            qc.top_id = #{top_id}
+    </select>
+
+	<select id="getTopOneData" parameterType="java.lang.String" resultType="com.chinahotelhelp.shm.operational.module.exportlist.entity.SysTop">
+        SELECT
+			id,name as label
+        FROM
+		sys_statistics
+		WHERE
+		id = #{top_id}
+    </select>
+
+    <select id="findStatisticsChineseDataList" parameterType="java.lang.String" resultType="java.util.Map">
+       ${value }
+    </select>
+    <select id="findStatisticsMathDataList" parameterType="java.lang.String" resultType="java.util.Map">
+       ${value }
+    </select>
+
+    <select id="findStatisticsEnglishDataList" parameterType="java.lang.String" resultType="java.util.Map">
+       ${value }
+    </select>
+
+    <select id="findStatisticsHistoryDataList" parameterType="java.lang.String" resultType="java.util.Map">
+       ${value }
+    </select>
+
+    <select id="getDate" parameterType="java.util.Map" resultType="java.util.Map">
+        ${exec_sql}
+    </select>
+
+    <select id="getAllDetailedList" parameterType="java.util.Map" resultType="java.util.Map">
+SELECT
+	tpay.pk_pay_id,
+	tpay.pay_refer_no,
+	tpay.pay_shift_no,
+	tp.pk_ci_id,
+	tp.or_checkin_id,
+	td.or_id,
+	td.or_ci_name,
+	td.or_ci_tel,
+	td.or_ci_idcard,
+	td.ro_type_id,
+	td.ro_type_name,
+	td.ro_id,
+	td.ro_price,
+	td.or_mode
+FROM
+	t_pay_payment tpay
+	LEFT JOIN t_pms_bill_detail tp ON tpay.pk_ci_id = tp.pk_ci_id
+	LEFT JOIN t_pms_order_guest td ON tpay.pk_ci_id = td.pk_ci_id
+    </select>
+
+	<!-- 查询导出数据列表 -->
+    <select id="exportListData" resultType="java.util.Map">
+SELECT
+	IFNULL( orde.pk_ci_id, "" ) AS pk_ci_id,
+	IFNULL( orde.or_id, "" ) AS or_id,
+	IFNULL( orde.or_group_id, "" ) AS or_group_id,
+	IFNULL( orde.or_checkin_id, "" ) AS or_checkin_id,
+	IFNULL( orde.or_ci_name, "" ) AS or_ci_name,
+	IFNULL( orde.or_act_arr_time, "" ) AS or_act_arr_time,
+	IFNULL( orde.or_act_dep_time, "" ) AS or_act_dep_time,
+	IFNULL( pay.pay_trans_date, "" ) AS pay_trans_date,
+	IFNULL( bill.bill_refundable_amount, "" ) AS bill_refundable_amount,
+	IFNULL( bill.bill_all_pay_money, "" ) AS bill_all_pay_money,
+	IFNULL( bill.bill_refund_time, "" ) AS bill_refund_time,
+	IFNULL( pay.pay_trans_type, "" ) AS pay_trans_type,
+	IFNULL( orde.or_mode, "" ) AS or_mode
+FROM
+	t_pms_order_guest orde
+	LEFT JOIN t_pay_payment pay ON pay.pk_ci_id = orde.pk_ci_id
+	LEFT JOIN t_pms_bill bill ON bill.pk_ci_id = orde.pk_ci_id
+ </select>
+
+    <!-- 查询统计数据 -->
+    <select id="exportListDetail" resultType="java.util.Map" parameterType="java.lang.String">
+SELECT
+	IFNULL( orde.pk_ci_id, "" ) AS pk_ci_id,
+	IFNULL( orde.or_id, "" ) AS or_id,
+	IFNULL( orde.or_group_id, "" ) AS or_group_id,
+	IFNULL( orde.or_checkin_id, "" ) AS or_checkin_id,
+	IFNULL( orde.or_ci_name, "" ) AS or_ci_name,
+	IFNULL( orde.or_act_arr_time, "" ) AS or_act_arr_time,
+	IFNULL( orde.or_act_dep_time, "" ) AS or_act_dep_time,
+	IFNULL( pay.pay_trans_date, "" ) AS pay_trans_date,
+	IFNULL( bill.bill_refundable_amount, "" ) AS bill_refundable_amount,
+	IFNULL( bill.bill_all_pay_money, "" ) AS bill_all_pay_money,
+	IFNULL( bill.bill_refund_time, "" ) AS bill_refund_time,
+	IFNULL( pay.pay_trans_type, "" ) AS pay_trans_type,
+	IFNULL( orde.or_mode, "" ) AS or_mode
+FROM
+	t_pms_order_guest orde
+	LEFT JOIN t_pay_payment pay ON pay.pk_ci_id = orde.pk_ci_id
+	LEFT JOIN t_pms_bill bill ON bill.pk_ci_id = orde.pk_ci_id
+</select>
+
+	<!-- 得到总条数的公共方法 -->
+	<select id="getCount" resultType="java.lang.Integer" parameterType="java.util.Map">
+		${exec_sql_count}
+	</select>
+
+	<!-- 查询列表每列的sql或者表达式 -->
+	<select id="queryStatisticsColumnSql" parameterType="java.util.Map" resultType="java.util.Map">
+        ${exec_sql}
+    </select>
+
+    <!-- 查询列表数据总条数 -->
+    <select id="getDetailedListCount" resultType="java.lang.Integer">
+	SELECT
+	count( * )
+	FROM
+	t_pms_order_guest g,
+	t_pms_bill b,
+	t_pay_payment p
+	WHERE
+	g.pk_ci_id = b.pk_ci_id
+	AND b.pk_ci_id = p.pk_ci_id
+	AND p.pay_isone = 1
+	AND b.bill_start_time >= str_to_date( '2016-01-02 12:00:00', '%Y-%m-%d %T' )
+	AND b.bill_over_time &lt;= str_to_date( '2020-01-02 12:00:00', '%Y-%m-%d %T' )
+	AND p.pay_paytype = 1
+	</select>
+    <select id="getchildrenData"
+            resultType="com.chinahotelhelp.shm.operational.module.exportlist.entity.SysChildren"
+            parameterType="java.lang.Integer">
+SELECT
+	*
+FROM
+	sys_statistics_header
+WHERE
+	top_id = #{top_id}
+</select>
+
+    <select id="getysThreeData" resultType="com.chinahotelhelp.shm.operational.module.exportlist.entity.SysThree"
+            parameterType="java.lang.Integer">
+SELECT
+	st.column_id AS id,
+	st.column_name AS label,
+	st.property AS prop,
+	st.column_sql AS statistics_column_sql,
+	st.ifsql AS order_count
+FROM
+	sys_statistics_column st
+WHERE
+	header_id = #{header_id}    </select>
+
+
+</mapper>
